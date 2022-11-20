@@ -46,14 +46,27 @@ class ReinforcementLearning:
             policy[:, state] = self.softmaxPoliy(params, state)
         return policy
 
-    def reinforce(self, theta=None):
+    def reinforce(self, theta=None, nEpisodes=100, nSteps=100):
 
-        cum_rewards = []
+        actions = self.mdp.nActions
+        states = self.mdp.nStates
+        discount = self.mdp.discount
+        params = theta
+        N = np.zeros((actions, states))
+        cum_rewards = np.zeros(nEpisodes)
+        for episode in range(nEpisodes):
+            state = self.mdp.startState
+            for step in range(nSteps):
+                policy = self.softmaxPoliy(params, state)
+                action = np.random.choice(actions, 1, p=policy)[0]
+                reward, nextState = self.sampleRewardAndNextState(state, action)
+                cum_rewards[episode] += reward * discount ** step
+                N[action, state] += 1
+                params[:, state] += (reward - cum_rewards[episode]) * policy
+                state = nextState
 
-        theta = np.zeros((self.mdp.nActions, self.mdp.nStates))
 
-
-        return cum_rewards, theta
+        return cum_rewards, params
 
     def actorCritic(self, theta=None):
 
