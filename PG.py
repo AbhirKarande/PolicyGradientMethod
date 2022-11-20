@@ -33,18 +33,32 @@ class ReinforcementLearning:
         cumProb = np.cumsum(self.mdp.T[action, state, :])
         nextState = np.where(cumProb >= np.random.rand(1))[0][0]
         return [reward, nextState]
+    def softmaxPoliy(self, params, state):
+        x = params[:, state]
+        shiftx = x - np.max(x)
+        exps = np.exp(shiftx)
+        return exps / np.sum(exps)
+    def softmaxPolicyFull(self, params):
+        states = self.mdp.nStates
+        actions = self.mdp.nActions
+        policy = np.zeros((actions, states))
+        for state in range(states):
+            policy[:, state] = self.softmaxPoliy(params, state)
+        return policy
 
     def reinforce(self, theta=None):
 
-        # initialize policy parameterization
-
         cum_rewards = []
+
+        theta = np.zeros((self.mdp.nActions, self.mdp.nStates))
+
 
         return cum_rewards, theta
 
     def actorCritic(self, theta=None):
 
-        # initialize policy parameterization
+        
+
 
         cum_rewards = []
 
