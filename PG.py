@@ -54,6 +54,9 @@ class ReinforcementLearning:
         params = theta
         N = np.zeros((actions, states))
         cum_rewards = np.zeros(nEpisodes)
+        rewards = np.zeros(nSteps)
+        actions1 = np.zeros(nSteps)
+        states1 = np.zeros(nSteps)
         for episode in range(nEpisodes):
             state = self.mdp.startState
             for step in range(nSteps):
