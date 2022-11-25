@@ -59,7 +59,7 @@ class ReinforcementLearning:
         states1 = np.zeros(nSteps)
         for episode in range(nEpisodes):
             #state is equal to the initial state 
-            state = 
+            state = 0
             for step in range(nSteps):
                 policy = self.softmaxPoliy(params, state)
                 action = np.random.choice(actions, 1, p=policy)[0]
